@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "815580807128",
+    "project_id": "recipe-app-georgia",
+    "storage_bucket": "recipe-app-georgia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815580807128:android:f87f0f59b61b737193bcad",
+        "android_client_info": {
+          "package_name": "com.example.first_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeeaqAxrHUy88vugAh-_W2vAtQ7Pbe4NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

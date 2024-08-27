@@ -2,9 +2,14 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() {
   runApp(MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,7 +22,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         ),
         home: MyHomePage(),
       ),
@@ -26,20 +31,23 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
+  //var current = WordPair.random();
+  var current = 0;
 
   void getNext() {
-    current = WordPair.random();
+    //current = WordPair.random();
+    current = current + 1;
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+  var favorites = <String>[];
 
   void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+    var temp = 'Recipe $current';
+    if (favorites.contains(temp)) {
+      favorites.remove(temp);
     } else {
-      favorites.add(current);
+      favorites.add(temp);
     }
     notifyListeners();
   }
@@ -48,6 +56,7 @@ class MyAppState extends ChangeNotifier {
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -130,7 +139,7 @@ class FavoritesPage extends StatelessWidget {
         for (var fav in appState.favorites)
           ListTile(
             leading: Icon(Icons.favorite),
-            title: Text(fav.asLowerCase),
+            title: Text(fav),
         ),
       ]
     );
@@ -141,7 +150,8 @@ class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var pair = appState.current;
+    var temp = appState.current;
+    var pair = 'Recipe $temp';
 
     IconData icon;
     if (appState.favorites.contains(pair)) {
@@ -154,7 +164,7 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BigCard(pair: pair),
+          BigCard(recipe: '$pair'),
           SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -184,10 +194,10 @@ class GeneratorPage extends StatelessWidget {
 class BigCard extends StatelessWidget {
   const BigCard({
     super.key,
-    required this.pair,
+    required this.recipe,
   });
 
-  final WordPair pair;
+  final String recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -202,9 +212,9 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          pair.asLowerCase,
+          recipe,
           style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
+          semanticsLabel: recipe,
         ),
       ),
     );

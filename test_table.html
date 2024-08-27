@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Table with Editable and Non-Editable Cells</title>
+  <style>
+    .table-container {
+      width: 80%;
+      overflow-x: auto;
+      margin: 20px auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .non-editable {
+      background-color: #f5f5f5; /* Light gray */
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="table-container">
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Column 1</th>
+          <th>Column 2</th>
+          <th>Column 3</th>
+          <th>Column 4</th>
+          <th>Column 5</th>
+          <!-- Add more column headers as needed -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table body will be populated dynamically with JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <button id="outputButton">Output Table Data</button>
+
+  <script>
+    // Sample data
+    var data = [
+      ["Data 1-1", "Data 1-2", "Data 1-3", "Data 1-4", "Data 1-5"],
+      ["Data 2-1", "Data 2-2", "Data 2-3", "Data 2-4", "Data 2-5"],
+      ["Data 3-1", "Data 3-2", "Data 3-3", "Data 3-4", "Data 3-5"],
+      // Add more data as needed
+    ];
+
+    // Function to dynamically populate the table
+    function populateTable() {
+      var tableBody = document.querySelector("#dataTable tbody");
+
+      // Clear existing rows
+      tableBody.innerHTML = "";
+
+      // Populate rows based on data
+      data.forEach(function(rowData) {
+        var row = document.createElement("tr");
+
+        rowData.forEach(function(cellData, index) {
+          var cell = document.createElement("td");
+          cell.textContent = cellData;
+          
+          if (index >= 0 && index <= 2) {
+            // Make cell not editable
+            cell.setAttribute("contenteditable", "false");
+            // Add a class to non-editable cells
+            cell.classList.add("non-editable");
+          } else {
+            // Make cell editable
+            cell.setAttribute("contenteditable", "true");
+          }
+          row.appendChild(cell);
+        });
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Call the function to populate the table initially
+    populateTable();
+
+    // Event listener for the output button
+    document.getElementById("outputButton").addEventListener("click", function() {
+      // Retrieve table data and output to the console
+      var tableRows = document.querySelectorAll("#dataTable tbody tr");
+      var tableData = [];
+
+      tableRows.forEach(function(row) {
+        var rowData = [];
+        row.querySelectorAll("td").forEach(function(cell) {
+          rowData.push(cell.textContent);
+        });
+        tableData.push(rowData);
+      });
+
+      console.log(tableData);
+    });
+  </script>
+</body>
+</html>
